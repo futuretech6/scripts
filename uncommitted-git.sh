@@ -1,5 +1,6 @@
 #!/bin/bash
 BASE_DIR=~
+CURRENT_DIR=$(pwd)
 
 find "$BASE_DIR" -name ".git" | while read gitdir; do
     repo_dir=$(dirname "$gitdir")
@@ -8,3 +9,5 @@ find "$BASE_DIR" -name ".git" | while read gitdir; do
         echo "Repository with uncommitted changes: $repo_dir"
     fi
 done
+
+cd $CURRENT_DIR
