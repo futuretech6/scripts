@@ -1,5 +1,5 @@
 #!/bin/bash
-BASE_DIR=~
+BASE_DIR=$(pwd)
 CURRENT_DIR=$(pwd)
 
 find "$BASE_DIR" -name ".git" | while read gitdir; do
