@@ -1,13 +1,12 @@
 #!/bin/bash
 BASE_DIR=$(pwd)
-CURRENT_DIR=$(pwd)
 
-find "$BASE_DIR" -name ".git" | while read gitdir; do
-    repo_dir=$(dirname "$gitdir")
+find "$BASE_DIR" -type d -name ".git" | while read git_dir; do
+    repo_dir=$(dirname "$git_dir")
     cd "$repo_dir"
     if [[ -n $(git status --porcelain) ]]; then
         echo "Repository with uncommitted changes: $repo_dir"
     fi
 done
 
-cd $CURRENT_DIR
+cd $BASE_DIR
