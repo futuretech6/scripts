@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import multiprocessing
+import sys
 
 
 def cpu_task():
@@ -7,16 +8,9 @@ def cpu_task():
         pass
 
 
-def main():
-    processes = [
-        multiprocessing.Process(target=cpu_task)
-        for _ in range(multiprocessing.cpu_count())
-    ]
-    for process in processes:
-        process.start()
-    for process in processes:
-        process.join()
-
-
-if __name__ == "__main__":
-    main()
+num_processes = int(sys.argv[1]) if len(sys.argv) == 2 else multiprocessing.cpu_count()
+processes = [multiprocessing.Process(target=cpu_task) for _ in range(num_processes)]
+for process in processes:
+    process.start()
+for process in processes:
+    process.join()
