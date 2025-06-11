@@ -1,0 +1,12 @@
+# backup
+cd ~/.gnupg/ && tar -czvf gpg_full_backup.tar.gz \
+  openpgp-revocs.d/ \
+  private-keys-v1.d/ \
+  pubring.kbx \
+  trustdb.gpg \
+  gpg.conf
+
+# restore
+tar -xzvf gpg_full_backup.tar.gz -C ~/.gnupg/
+chmod 700 ~/.gnupg/
+chmod 600 ~/.gnupg/private-keys-v1.d/*
