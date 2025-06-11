@@ -1,3 +1,4 @@
+```bash
 # backup
 cd ~/.gnupg/ && tar -czvf gpg_full_backup.tar.gz \
   openpgp-revocs.d/ \
@@ -10,3 +11,4 @@ cd ~/.gnupg/ && tar -czvf gpg_full_backup.tar.gz \
 tar -xzvf gpg_full_backup.tar.gz -C ~/.gnupg/
 chmod 700 ~/.gnupg/
 chmod 600 ~/.gnupg/private-keys-v1.d/*
+```
