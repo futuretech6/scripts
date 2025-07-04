@@ -4,7 +4,7 @@ import concurrent.futures
 import http.client
 import struct
 import time
-from typing import Optional
+from typing import Union
 from urllib.parse import urlparse
 
 timeout = 2
@@ -15,14 +15,27 @@ doh_servers = [
     "https://doh.pub/dns-query",
     "https://doh.360.cn/dns-query",
     "https://dns.cloudflare.com/dns-query",
+    "https://cloudflare-dns.com/dns-query",
     "https://dns.quad9.net/dns-query",
+    "https://149.112.112.112/dns-query",  # Quad9
+    "https://dns.twnic.tw/dns-query",  # Quad101
     "https://doh.opendns.com/dns-query",
+    "https://208.67.222.222/dns-query",  # OpenDNS
     "https://doh.dns.sb/dns-query",
     "https://ada.openbld.net/dns-query",
+    "https://private.canadianshield.cira.ca/dns-query",
+    "https://sky.rethinkdns.com/dns-query",
+    "https://dns-doh.dnsforfamily.com/dns-query",
+    "https://dns.switch.ch/dns-query",
+    "https://dnspub.restena.lu/dns-query",
+    "https://anycast.uncensoreddns.org/dns-query",
+    "https://doh.applied-privacy.net/query",
 ]
 
+pad_len = max(len(url) for url in doh_servers) + 1
 
-def build_dns_query(domain: str) -> bytes:
+
+def build_wire(domain: str) -> bytes:
     # 构造最简单的A记录查询报文（递归查询，1个问题）
     tid = 0x1234
     flags = 0x0100  # 标准查询，递归
@@ -39,11 +52,11 @@ def build_dns_query(domain: str) -> bytes:
     return header + question
 
 
-def test_doh_server_wire(url: str) -> Optional[float]:
+def test_doh_server_wire(url: str) -> Union[float, str]:
     try:
         parsed_url = urlparse(url)
         conn = http.client.HTTPSConnection(parsed_url.netloc, timeout=timeout)
-        dns_query = build_dns_query(target_domain)
+        dns_query = build_wire(target_domain)
         dns_query_b64 = base64.urlsafe_b64encode(dns_query).rstrip(b"=").decode()
         path = f"{parsed_url.path}?dns={dns_query_b64}"
         headers = {"Accept": "application/dns-message"}
@@ -53,24 +66,72 @@ def test_doh_server_wire(url: str) -> Optional[float]:
         if response.status == 200:
             return time.time() - start_time
         else:
-            return None
-    except Exception:
-        return None
+            raise http.client.HTTPException(f"StatusError {response.status}")
+    except Exception as e:
+        return f"{type(e).__name__}: {e}"
+
+
+def test_doh_server_wire_post(url: str) -> Union[float, str]:
+    try:
+        parsed_url = urlparse(url)
+        conn = http.client.HTTPSConnection(parsed_url.netloc, timeout=timeout)
+        dns_query = build_wire(target_domain)
+        headers = {
+            "Content-Type": "application/dns-message",
+            "Accept": "application/dns-message",
+        }
+        start_time = time.time()
+        conn.request("POST", parsed_url.path, body=dns_query, headers=headers)
+        response = conn.getresponse()
+        if response.status == 200:
+            return time.time() - start_time
+        else:
+            raise http.client.HTTPException(f"StatusError {response.status}")
+    except Exception as e:
+        return f"{type(e).__name__}: {e}"
+
+
+def test_doh_server_json(url: str) -> Union[float, str]:
+    try:
+        parsed_url = urlparse(url)
+        conn = http.client.HTTPSConnection(parsed_url.netloc, timeout=timeout)
+        # 构造JSON API参数
+        path = f"{parsed_url.path}?name={target_domain}&type=A"
+        headers = {"Accept": "application/dns-json"}
+        start_time = time.time()
+        conn.request("GET", path, headers=headers)
+        response = conn.getresponse()
+        if response.status == 200:
+            return time.time() - start_time
+        else:
+            raise http.client.HTTPException(f"StatusError {response.status}")
+    except Exception as e:
+        return f"{type(e).__name__}: {e}"
+
+
+def test_doh_server(url: str) -> Union[float, str]:
+    if isinstance(wire_result := test_doh_server_wire(url), float):
+        return wire_result
+    elif isinstance(wire_post_result := test_doh_server_wire_post(url), float):
+        return wire_post_result
+    elif isinstance(json_result := test_doh_server_json(url), float):
+        return json_result
+    else:
+        return f"WIRE {wire_result}; WIRE POST {wire_post_result}; JSON {json_result}."
 
 
 print("DoH Server Connectivity Results (wire format):")
 
 
-def worker(url):
-    elapsed_time = test_doh_server_wire(url)
-    pad_len = max(len(url) for url in doh_servers) + 1
-    if elapsed_time is not None:
-        return f"{url.ljust(pad_len)}: Connected in {elapsed_time:.3f} seconds"
+def worker(url) -> str:
+    if isinstance(elapsed_time := test_doh_server(url), float):
+        return f"[*] {url.ljust(pad_len)}: Connected in {elapsed_time * 1e3:.2f} ms"
     else:
-        return f"{url.ljust(pad_len)}: Connection failed"
+        return f"[!] {url.ljust(pad_len)}: {elapsed_time}"
 
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=len(doh_servers)) as executor:
     results = list(executor.map(lambda u: worker(u), doh_servers))
     for res in results:
-        print(res)
+        if res is not None:
+            print(res)
