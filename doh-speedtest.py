@@ -16,13 +16,21 @@ doh_servers = [
     "https://doh.360.cn/dns-query",
     "https://dns.cloudflare.com/dns-query",
     "https://cloudflare-dns.com/dns-query",
-    "https://dns.google/dns-query",
-    "https://dns.quad9.net/dns-query",
-    "https://149.112.112.112/dns-query",  # Quad9
-    "https://dns.twnic.tw/dns-query",  # Quad101
-    "https://doh.opendns.com/dns-query",
-    "https://208.67.222.222/dns-query",  # OpenDNS
+    "https://1.1.1.1/dns-query",
+    "https://1.0.0.1/dns-query",
+    "https://dns.google/dns-query",  # RFC 8484 (GET and POST)
+    "https://dns.google/resolve?",  # JSON API (GET)
+    "https://8.8.8.8/dns-query",
+    "https://8.8.4.4/dns-query",
+    "https://dns.quad9.net/dns-query",  # IBM
+    "https://149.112.112.112/dns-query",
+    "https://dns.twnic.tw/dns-query",
+    "https://doh.opendns.com/dns-query",  # Cisco
+    "https://208.67.222.222/dns-query",
+    "https://doh.sb/dns-query",
     "https://doh.dns.sb/dns-query",
+    "https://45.11.45.11/dns-query",
+    "https://185.222.222.222/dns-query",
     "https://ada.openbld.net/dns-query",
     "https://private.canadianshield.cira.ca/dns-query",
     "https://sky.rethinkdns.com/dns-query",
@@ -31,6 +39,8 @@ doh_servers = [
     "https://dnspub.restena.lu/dns-query",
     "https://anycast.uncensoreddns.org/dns-query",
     "https://doh.applied-privacy.net/query",
+    "https://wikimedia-dns.org/dns-query",
+    "https://freedns.controld.com/p0",
 ]
 
 pad_len = max(len(url) for url in doh_servers) + 1
@@ -118,7 +128,7 @@ def test_doh_server(url: str) -> Union[float, str]:
         )
 
 
-print("DoH Server Connectivity Results (wire format):")
+print("DoH Server Connectivity Results:")
 
 
 def worker(url) -> str:
