@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import base64
+import concurrent.futures
 import http.client
 import struct
 import time
@@ -58,9 +59,18 @@ def test_doh_server_wire(url: str) -> Optional[float]:
 
 
 print("DoH Server Connectivity Results (wire format):")
-for url in doh_servers:
+
+
+def worker(url):
     elapsed_time = test_doh_server_wire(url)
+    pad_len = max(len(url) for url in doh_servers) + 1
     if elapsed_time is not None:
-        print(f"{url}: Connected in {elapsed_time:.3f} seconds")
+        return f"{url.ljust(pad_len)}: Connected in {elapsed_time:.3f} seconds"
     else:
-        print(f"{url}: Connection failed")
+        return f"{url.ljust(pad_len)}: Connection failed"
+
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+    results = list(executor.map(lambda u: worker(u), doh_servers))
+    for res in results:
+        print(res)
