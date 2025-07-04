@@ -67,7 +67,7 @@ def test_doh_server_wire(url: str) -> Union[float, str]:
     try:
         dns_query = build_wire(target_domain)
         dns_query_b64 = base64.urlsafe_b64encode(dns_query).rstrip(b"=").decode()
-        headers = {"Accept": "application/dns-message"}
+        headers = {"Accept": "application/dns-message", "User-Agent": ""}
         start_time = time.time()
         with httpx.Client(http2=True, timeout=timeout) as client:
             response = client.get(url, params={"dns": dns_query_b64}, headers=headers)
@@ -85,6 +85,7 @@ def test_doh_server_wire_post(url: str) -> Union[float, str]:
         headers = {
             "Content-Type": "application/dns-message",
             "Accept": "application/dns-message",
+            "User-Agent": "",
         }
         start_time = time.time()
         with httpx.Client(http2=True, timeout=timeout) as client:
@@ -99,7 +100,7 @@ def test_doh_server_wire_post(url: str) -> Union[float, str]:
 
 def test_doh_server_json(url: str) -> Union[float, str]:
     try:
-        headers = {"Accept": "application/dns-json"}
+        headers = {"Accept": "application/dns-json", "User-Agent": ""}
         start_time = time.time()
         with httpx.Client(http2=True, timeout=timeout) as client:
             response = client.get(
