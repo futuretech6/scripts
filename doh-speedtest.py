@@ -23,8 +23,10 @@ doh_servers = [
     "https://8.8.8.8/dns-query",
     "https://8.8.4.4/dns-query",
     "https://dns.quad9.net/dns-query",  # IBM
+    "https://9.9.9.9/dns-query",
     "https://149.112.112.112/dns-query",
     "https://dns.twnic.tw/dns-query",
+    "https://101.101.101.101/dns-query",
     "https://doh.opendns.com/dns-query",  # Cisco
     "https://208.67.222.222/dns-query",
     "https://doh.sb/dns-query",
@@ -32,13 +34,13 @@ doh_servers = [
     "https://45.11.45.11/dns-query",
     "https://185.222.222.222/dns-query",
     "https://ada.openbld.net/dns-query",
-    "https://private.canadianshield.cira.ca/dns-query",
+    "https://private.canadianshield.cira.ca/dns-query",  # https://www.cira.ca/en/canadian-shield/
     "https://sky.rethinkdns.com/dns-query",
-    "https://dns-doh.dnsforfamily.com/dns-query",
-    "https://dns.switch.ch/dns-query",
-    "https://dnspub.restena.lu/dns-query",
+    "https://dns-doh.dnsforfamily.com/dns-query",  # These servers block **porn and other adult websites**, and ..., while ... from **malware, ads, gambling**.
+    "https://dns.switch.ch/dns-query",  # https://portal.switch.ch/pub/public-dns **within** Switzerland.
+    "https://dnspub.restena.lu/dns-query",  # https://www.restena.lu/en/service/public-dns-resolver
     "https://anycast.uncensoreddns.org/dns-query",
-    "https://doh.applied-privacy.net/query",
+    "https://doh.applied-privacy.net/query",  # our resolvers ... from the authoritative DNS servers.
     "https://wikimedia-dns.org/dns-query",
     "https://freedns.controld.com/p0",
 ]
