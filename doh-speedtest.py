@@ -3,11 +3,11 @@ import base64
 import concurrent.futures
 import struct
 import time
-from typing import Union
+from typing import List, Union
 
 import httpx  # pip install "httpx[http2]"
 
-timeout = 2
+timeout = 3.0
 target_domain = "google.com"
 
 doh_servers = [
@@ -129,11 +129,14 @@ def test_doh_server(url: str) -> Union[float, str]:
         )
 
 
+available_servers: List[str] = []
+
 print("DoH Server Connectivity Results:")
 
 
 def worker(url) -> str:
     if isinstance(elapsed_time := test_doh_server(url), float):
+        available_servers.append(url)  # first come first appended
         return f"[*] {url.ljust(pad_len)}: Connected in {elapsed_time * 1e3:.2f} ms"
     else:
         return f"[!] {url.ljust(pad_len)}: {elapsed_time}"
@@ -144,3 +147,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=len(doh_servers)) as exec
     for res in results:
         if res is not None:
             print(res)
+    print("\nAvailable DoH servers (sorted):")
+    for server in available_servers:
+        print(f"{server}")
