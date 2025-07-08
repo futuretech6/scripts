@@ -10,6 +10,11 @@ import httpx  # pip install "httpx[http2]"
 timeout = 3.0
 target_domain = "google.com"
 
+"""
+https://dnsprivacy.org/public_resolvers/#dns-over-https-doh
+https://dnscrypt.info/public-servers/
+https://dnscrypt.info/map/
+"""
 doh_servers = [
     "https://dns.alidns.com/dns-query",
     "https://doh.pub/dns-query",
@@ -43,6 +48,7 @@ doh_servers = [
     "https://doh.applied-privacy.net/query",  # our resolvers ... from the authoritative DNS servers.
     "https://wikimedia-dns.org/dns-query",
     "https://freedns.controld.com/p0",
+    "https://public.dns.iij.jp/dns-query",  # https://policy.public.dns.iij.jp/
 ]
 
 pad_len = max(len(url) for url in doh_servers) + 1
