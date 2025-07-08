@@ -30,6 +30,8 @@ doh_servers = [
     "https://dns.quad9.net/dns-query",  # IBM
     "https://9.9.9.9/dns-query",
     "https://149.112.112.112/dns-query",
+    "https://dns.adguard-dns.com/dns-query",
+    "https://unfiltered.adguard-dns.com/dns-query",
     "https://dns.twnic.tw/dns-query",
     "https://101.101.101.101/dns-query",
     "https://doh.opendns.com/dns-query",  # Cisco
