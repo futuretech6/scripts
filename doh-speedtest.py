@@ -40,10 +40,10 @@ doh_servers = [
     "https://doh.dns.sb/dns-query",
     "https://45.11.45.11/dns-query",
     "https://185.222.222.222/dns-query",
-    "https://ada.openbld.net/dns-query",  # Fast and flexible adaptive filtering... edith.xiaohongshu.com --> [0.0.0.0 ::]
-    "https://private.canadianshield.cira.ca/dns-query",  # https://www.cira.ca/en/canadian-shield/
+    # "https://ada.openbld.net/dns-query",  # Fast and flexible adaptive filtering... edith.xiaohongshu.com --> [0.0.0.0 ::]
+    # "https://private.canadianshield.cira.ca/dns-query",  # https://www.cira.ca/en/canadian-shield/
     "https://sky.rethinkdns.com/dns-query",
-    "https://dns-doh.dnsforfamily.com/dns-query",  # These servers block **porn and other adult websites**, and ..., while ... from **malware, ads, gambling**.
+    # "https://dns-doh.dnsforfamily.com/dns-query",  # These servers block **porn and other adult websites**, and ..., while ... from **malware, ads, gambling**.
     "https://dns.switch.ch/dns-query",  # https://portal.switch.ch/pub/public-dns **within** Switzerland.
     "https://dnspub.restena.lu/dns-query",  # https://www.restena.lu/en/service/public-dns-resolver
     "https://anycast.uncensoreddns.org/dns-query",
