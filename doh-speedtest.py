@@ -159,4 +159,4 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=len(doh_servers)) as exec
             print(res)
     print("\nAvailable DoH servers (sorted):")
     for server, elapsed_time in available_servers:
-        print(f"{server}: {elapsed_time * 1e3:.2f} ms")
+        print(f"{server.ljust(pad_len)}: {elapsed_time * 1e3:.2f} ms")
