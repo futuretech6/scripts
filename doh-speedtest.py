@@ -158,5 +158,6 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=len(doh_servers)) as exec
         if res is not None:
             print(res)
     print("\nAvailable DoH servers (sorted):")
+    available_servers.sort(key=lambda server_tuple: server_tuple[1])
     for server, elapsed_time in available_servers:
         print(f"{server.ljust(pad_len)}: {elapsed_time * 1e3:.2f} ms")
