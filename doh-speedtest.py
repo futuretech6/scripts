@@ -16,6 +16,8 @@ https://dnscrypt.info/public-servers/
 https://dnscrypt.info/map/
 """
 doh_servers = [
+    "https://223.5.5.5/dns-query",
+    # "https://1.12.12.12/dns-query",  # https://docs.dnspod.cn/notices/mian-fei-ban-dot-dohbu-zai-gong-kai-ipjie-ru-de-gong-gao/
     "https://dns.alidns.com/dns-query",
     "https://doh.pub/dns-query",
     "https://doh.360.cn/dns-query",
@@ -51,6 +53,7 @@ doh_servers = [
     "https://wikimedia-dns.org/dns-query",
     "https://freedns.controld.com/p0",
     "https://public.dns.iij.jp/dns-query",  # https://policy.public.dns.iij.jp/
+    "https://101.6.6.6:8443/dns-query",  # https://tuna.moe/help/dns/
 ]
 
 pad_len = max(len(url) for url in doh_servers) + 1
