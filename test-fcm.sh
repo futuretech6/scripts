@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 trap 'echo; exit 130' INT
 port=5228
 hosts=(mtalk.google.com alt{1..8}-mtalk.google.com)
