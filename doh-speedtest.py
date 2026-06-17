@@ -54,7 +54,7 @@ doh_servers = [
     "https://freedns.controld.com/p0",
     "https://public.dns.iij.jp/dns-query",  # https://policy.public.dns.iij.jp/
     "https://101.6.6.6:8443/dns-query",  # https://tuna.moe/help/dns/
-    "https://common.dot.dns.yandex.net",
+    "https://common.dot.dns.yandex.net/dns-query",
     "https://77.88.8.8/dns-query",  # yandex
     "https://77.88.8.1/dns-query",  # yandex
 ]
