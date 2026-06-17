@@ -56,6 +56,7 @@ doh_servers = [
     "https://101.6.6.6:8443/dns-query",  # https://tuna.moe/help/dns/
     "https://common.dot.dns.yandex.net",
     "https://77.88.8.8/dns-query",  # yandex
+    "https://77.88.8.1/dns-query",  # yandex
 ]
 
 pad_len = max(len(url) for url in doh_servers) + 1
