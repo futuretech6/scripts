@@ -9,55 +9,63 @@ import httpx  # pip install "httpx[http2]"
 
 timeout = 3.0
 target_domain = "google.com"
+max_par = 16
 
 """
 https://dnsprivacy.org/public_resolvers/#dns-over-https-doh
 https://dnscrypt.info/public-servers/
 https://dnscrypt.info/map/
+https://dns-over-https.org/en/servers/public-doh-servers/
 """
-doh_servers = [
-    "https://223.5.5.5/dns-query",
-    # "https://1.12.12.12/dns-query",  # https://docs.dnspod.cn/notices/mian-fei-ban-dot-dohbu-zai-gong-kai-ipjie-ru-de-gong-gao/
-    "https://dns.alidns.com/dns-query",
-    "https://doh.pub/dns-query",
-    "https://doh.360.cn/dns-query",
-    "https://dns.cloudflare.com/dns-query",
-    "https://cloudflare-dns.com/dns-query",
-    "https://1.1.1.1/dns-query",
+doh_servers = {
     "https://1.0.0.1/dns-query",
+    "https://1.1.1.1/dns-query",
+    "https://8.8.4.4/dns-query",
+    "https://8.8.8.8/dns-query",
+    "https://9.9.9.9/dns-query",
+    "https://45.11.45.11/dns-query",
+    "https://77.88.8.1/dns-query",  # yandex
+    "https://77.88.8.8/dns-query",  # yandex
+    "https://101.6.6.6:8443/dns-query",  # https://tuna.moe/help/dns/
+    "https://101.101.101.101/dns-query",
+    "https://149.112.112.112/dns-query",
+    "https://185.222.222.222/dns-query",
+    "https://208.67.222.222/dns-query",
+    "https://223.5.5.5/dns-query",
+    "https://anycast.uncensoreddns.org/dns-query",
+    "https://cloudflare-dns.com/dns-query",
+    "https://common.dot.dns.yandex.net/dns-query",
+    "https://dns.adguard-dns.com/dns-query",
+    "https://dns.alidns.com/dns-query",
+    "https://dns.cloudflare.com/dns-query",
+    "https://dns.controld.com/dns-query",
     "https://dns.google/dns-query",  # RFC 8484 (GET and POST)
     "https://dns.google/resolve?",  # JSON API (GET)
-    "https://8.8.8.8/dns-query",
-    "https://8.8.4.4/dns-query",
+    "https://dns.nextdns.io/dns-query",
     "https://dns.quad9.net/dns-query",  # IBM
-    "https://9.9.9.9/dns-query",
-    "https://149.112.112.112/dns-query",
-    "https://dns.adguard-dns.com/dns-query",
-    "https://unfiltered.adguard-dns.com/dns-query",
-    "https://dns.twnic.tw/dns-query",
-    "https://101.101.101.101/dns-query",
-    "https://doh.opendns.com/dns-query",  # Cisco
-    "https://208.67.222.222/dns-query",
-    "https://doh.sb/dns-query",
-    "https://doh.dns.sb/dns-query",
-    "https://45.11.45.11/dns-query",
-    "https://185.222.222.222/dns-query",
-    # "https://ada.openbld.net/dns-query",  # Fast and flexible adaptive filtering... edith.xiaohongshu.com --> [0.0.0.0 ::]
-    # "https://private.canadianshield.cira.ca/dns-query",  # https://www.cira.ca/en/canadian-shield/
-    "https://sky.rethinkdns.com/dns-query",
-    # "https://dns-doh.dnsforfamily.com/dns-query",  # These servers block **porn and other adult websites**, and ..., while ... from **malware, ads, gambling**.
     "https://dns.switch.ch/dns-query",  # https://portal.switch.ch/pub/public-dns **within** Switzerland.
+    "https://dns.twnic.tw/dns-query",
     "https://dnspub.restena.lu/dns-query",  # https://www.restena.lu/en/service/public-dns-resolver
-    "https://anycast.uncensoreddns.org/dns-query",
+    "https://doh.360.cn/dns-query",
     "https://doh.applied-privacy.net/query",  # We do not provide DNS filter services, our resolvers ... from the authoritative DNS servers.
-    "https://wikimedia-dns.org/dns-query",
+    "https://doh.dns.sb/dns-query",
+    "https://doh.libredns.gr/dns-query",
+    "https://doh.mullvad.net/dns-query",
+    "https://doh.opendns.com/dns-query",  # Cisco
+    "https://doh.pub/dns-query",
+    "https://doh.sb/dns-query",
     "https://freedns.controld.com/p0",
+    "https://freedns.controld.com/uncensored",
     "https://public.dns.iij.jp/dns-query",  # https://policy.public.dns.iij.jp/
-    "https://101.6.6.6:8443/dns-query",  # https://tuna.moe/help/dns/
-    "https://common.dot.dns.yandex.net/dns-query",
-    "https://77.88.8.8/dns-query",  # yandex
-    "https://77.88.8.1/dns-query",  # yandex
-]
+    "https://sky.rethinkdns.com/dns-query",  # https://rethinkdns.com/configure
+    "https://unfiltered.adguard-dns.com/dns-query",
+    "https://wikimedia-dns.org/dns-query",
+    # "https://1.12.12.12/dns-query",  # https://docs.dnspod.cn/notices/mian-fei-ban-dot-dohbu-zai-gong-kai-ipjie-ru-de-gong-gao/
+    # "https://ada.openbld.net/dns-query",  # Fast and flexible adaptive filtering... edith.xiaohongshu.com --> [0.0.0.0 ::]
+    # "https://dns-doh.dnsforfamily.com/dns-query",  # These servers block **porn and other adult websites**, and ..., while ... from **malware, ads, gambling**.
+    # "https://doh.cleanbrowsing.org/dns-query",  # https://cleanbrowsing.org/learn/what-is-encrypted-dns#step3
+    # "https://private.canadianshield.cira.ca/dns-query",  # https://www.cira.ca/en/canadian-shield/
+}
 
 pad_len = max(len(url) for url in doh_servers) + 1
 
@@ -158,7 +166,9 @@ def worker(url: str) -> str:
         return f"[!] {url.ljust(pad_len)}: {elapsed_time}"
 
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=len(doh_servers)) as executor:
+with concurrent.futures.ThreadPoolExecutor(
+    max_workers=max(len(doh_servers), max_par)
+) as executor:
     results = list(executor.map(lambda u: worker(u), doh_servers))
     for res in results:
         if res is not None:
