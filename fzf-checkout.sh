@@ -3,8 +3,8 @@ gco() {
     local branch
     branch=$(
         git branch --all --sort=-committerdate \
-            --format='%(refname:short)' 2>/dev/null \
-            | grep -v '^origin/HEAD' \
+            --format='%(if)%(symref)%(then)%(else)%(refname:short)%(end)' 2>/dev/null \
+            | grep -v '^$' \
             | fzf --ansi --no-multi \
                   --preview 'git log --oneline --graph --decorate --color=always {} | head -200'
     ) || return
