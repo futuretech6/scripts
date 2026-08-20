@@ -32,13 +32,13 @@ doh_servers = {
     "https://185.222.222.222/dns-query",
     "https://208.67.222.222/dns-query",
     "https://223.5.5.5/dns-query",
-    "https://anycast.uncensoreddns.org/dns-query",
+    "https://anycast.uncensoreddns.org/dns-query",  # 主要覆盖欧洲、北美和少量其他地区
     "https://cloudflare-dns.com/dns-query",
     "https://common.dot.dns.yandex.net/dns-query",
     "https://dns.adguard-dns.com/dns-query",
     "https://dns.alidns.com/dns-query",
     "https://dns.cloudflare.com/dns-query",
-    "https://dns.controld.com/dns-query",
+    "https://dns.controld.com/dns-query",  # 节点覆盖北美、欧洲、亚洲、大洋洲等很多地区
     "https://dns.google/dns-query",  # RFC 8484 (GET and POST)
     "https://dns.google/resolve?",  # JSON API (GET)
     "https://dns.nextdns.io/dns-query",
@@ -47,7 +47,7 @@ doh_servers = {
     "https://dns.twnic.tw/dns-query",
     "https://dnspub.restena.lu/dns-query",  # https://www.restena.lu/en/service/public-dns-resolver
     "https://doh.360.cn/dns-query",
-    "https://doh.applied-privacy.net/query",  # We do not provide DNS filter services, our resolvers ... from the authoritative DNS servers.
+    "https://doh.applied-privacy.net/query",  # We do not provide DNS filter services, our resolvers ... from the authoritative DNS servers. 服务器主要位于德国和奥地利。
     "https://doh.dns.sb/dns-query",
     "https://doh.libredns.gr/dns-query",
     "https://doh.mullvad.net/dns-query",
